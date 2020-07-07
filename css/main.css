@@ -1,0 +1,32 @@
+body {
+	background: #CFCFCF;
+	font-size: 1.25rem;;
+}
+
+header {
+	text-align: center;
+}
+
+nav ul li{
+	list-style-type: none;
+	display: inline-block;
+}
+
+.wrapper {
+	background: #FFFFFF;
+	margin: 10px auto;
+	max-width: 900px;
+	padding: 20px;
+}
+
+footer {
+	text-align: center;
+}
+
+
+input,
+select,
+textarea {
+	display: block;
+	margin: 15px;
+}
