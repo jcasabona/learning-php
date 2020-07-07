@@ -24,9 +24,6 @@ footer {
 }
 
 
-input,
-select,
-textarea {
-	display: block;
+form div {
 	margin: 15px;
 }
