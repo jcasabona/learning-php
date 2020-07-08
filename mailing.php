@@ -1,4 +1,5 @@
 <?php 
+	ob_start();
 	require_once 'inc/header.php'; 
 	$form_data = $_POST ?? null; 	
 	$form_is_complete = true;
@@ -38,12 +39,13 @@
 		//Write Data to File.
 		$entry = "$name, $email \n";
 		file_put_contents( 'mailing-list.txt', $entry, FILE_APPEND );
-		
+		setcookie( 'signed_up', true );
 		echo "<h3>Thanks! You're on the list!</h3>";
 	
 	}
 	
 ?>
+	<?php if ( empty( $_COOKIE['signed_up'] ) ) :?>
     <h2>Join Mailing List</h2>
 	<form name="contact" method="POST">
 		<div>
@@ -56,6 +58,7 @@
 		</div>
 		<div><input type="submit" name="submit" value="Submit" /></div>
 	</form>
+	<?php endif; ?>
 
 <?php 
 	if ( true === $form_is_complete && ! empty( $form_data ) ) {
