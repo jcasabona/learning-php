@@ -1,14 +1,16 @@
 <?php 
-	ob_start();
+	session_start();
 	require_once 'inc/header.php'; 
 	$form_data = $_POST ?? null; 	
 	$form_is_complete = true;
 
-	function check_required( $value ) {
+	function check_required( $value, $key ) {
 		if( empty( trim( $value ) ) ) {
 			echo '<p class="alert">This is a required field.</p>';
 			$_GLOBALS['form_is_complete'] = false;
-		} 
+		}  else {
+			$_SESSION[$key] = $value;
+		}
 	}
 
 	function check_email( $email ) {
@@ -28,7 +30,7 @@
 		$to = "$name <$email>";
 		$subject = "You're on the list!";
 		$message = "Hey $name, \n\n Thanks so much for joining my mailing list! You'll get news, tips, and tricks weekly! \n\ Joe";
-
+		
 		$headers = 'From: ' . $from . "\r\n" .
     		'Reply-To: ' . $from . "\r\n" .
     		'X-Mailer: PHP/' . phpversion();
@@ -39,26 +41,24 @@
 		//Write Data to File.
 		$entry = "$name, $email \n";
 		file_put_contents( 'mailing-list.txt', $entry, FILE_APPEND );
-		setcookie( 'signed_up', true );
+		$_SESSION['signed_up'] = true;
 		echo "<h3>Thanks! You're on the list!</h3>";
 	
 	}
 	
 ?>
-	<?php if ( empty( $_COOKIE['signed_up'] ) ) :?>
     <h2>Join Mailing List</h2>
 	<form name="contact" method="POST">
 		<div>
-			<?php if ( ! empty( $form_data ) ) check_required( $form_data['name'] ); ?>
-			<label for="name">Name:</label> <input type="text" name="name" placeholder="Your Name" required/>
+			<?php if ( ! empty( $form_data ) ) check_required( $form_data['name'], 'name' ); ?>
+			<label for="name">Name:</label> <input type="text" name="name" placeholder="Your Name" value="<?php echo isset( $_SESSION['name'] ) ? $_SESSION['name'] : ''; ?>" required/>
 		</div>
 		<div>
-			<?php if ( ! empty( $form_data ) ) check_required( $form_data['email'] ); ?>
-			<label for="email">Email:</label> <input type="email" name="email" placeholder="Your Email" required/>
+			<?php if ( ! empty( $form_data ) ) check_required( $form_data['email'], 'email' ); ?>
+			<label for="email">Email:</label> <input type="email" name="email" placeholder="Your Email" value="<?php echo isset( $_SESSION['email'] ) ? $_SESSION['email'] : ''; ?>" required/>
 		</div>
 		<div><input type="submit" name="submit" value="Submit" /></div>
 	</form>
-	<?php endif; ?>
 
 <?php 
 	if ( true === $form_is_complete && ! empty( $form_data ) ) {
