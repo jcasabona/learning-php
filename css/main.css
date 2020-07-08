@@ -36,3 +36,10 @@ form.clean textarea {
 	font-size: 2rem;
 	display: block;
 }
+
+.alert {
+	padding: 5px;
+	background: #880000;
+	color: #FFFFFF;
+	font-weight: bold;
+}
