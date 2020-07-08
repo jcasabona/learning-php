@@ -1,7 +1,7 @@
 <?php 
 	require_once 'inc/header.php'; 
 	$form_data = $_POST ?? null; 	
-	$form_is_complete = true;
+	$form_is_complete = 1;
 
 	function check_required( $value ) {
 		if( empty( $value ) ) {
@@ -59,7 +59,7 @@
 	</form>
 
 <?php require_once 'inc/footer.php';
-	if ( $form_is_complete ) {
+	if ( $form_is_complete === true) {
 		$regex= '^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$^';
 		if ( ! preg_match( $regex, $form_data['email'] ) ) {
 			echo "<p>You did not input a valid email address.</p>";
