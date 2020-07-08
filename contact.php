@@ -1,12 +1,26 @@
-<?php require_once 'inc/header.php'; ?>
+<?php 
+	require_once 'inc/header.php'; 
+	$form_data = $_POST ?? null; 	
+	$form_is_complete = true;
+
+	function check_required( $value ) {
+		if( empty( $value ) ) {
+			echo '<p>This is a required field.</p>';
+			$_GLOBALS['form_is_complete'] = false;
+		} 
+	}
+	
+?>
     <h2>Contact <?php echo $author; ?></h2>
    
-	<form name="contact" method="POST" action="process.php">
+	<form name="contact" method="POST">
 		<div>
+			<?php if ( ! empty( $form_data ) ) check_required( $form_data['name'] ); ?>
 			<label for="name">Name:</label> <input type="text" name="name" placeholder="Your Name" />
 		</div>
 		<div>
-			<label for="name">Email:</label> <input type="email" name="email" placeholder="Your Email" />
+			<?php if ( ! empty( $form_data ) ) check_required( $form_data['email'] ); ?>
+			<label for="name">Email:</label> <input type="text" name="email" placeholder="Your Email" />
 		</div>
 		<div>
 			<p>Reason for Contact:</p>
@@ -38,9 +52,16 @@
 		</div>
 		<div>
 			<label for="message">What's your message?</label>
+			<?php if ( ! empty( $form_data ) ) check_required( $form_data['message'] ); ?>
 			<textarea name="message"></textarea>
 		</div>
 		<div><input type="submit" name="submit" value="Submit" /></div>
 	</form>
 
-<?php require_once 'inc/footer.php'; ?>
+<?php require_once 'inc/footer.php';
+	if ( $form_is_complete ) {
+		$regex= '^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$^';
+		if ( ! preg_match( $regex, $form_data['email'] ) ) {
+			echo "<p>You did not input a valid email address.</p>";
+		}
+	}
