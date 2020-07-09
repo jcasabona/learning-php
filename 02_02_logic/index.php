@@ -13,6 +13,6 @@ echo '<pre>';
 var_dump( $logic ); 
 echo '</pre>';
 
-($c = $a) and $b;
+$c = $a and $b;
 
 var_dump( $c );
