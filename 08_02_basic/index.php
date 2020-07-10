@@ -1,4 +1,4 @@
-     <h2>Contact</h2>
+    <h2>Contact</h2>
    
 	<form name="contact" method="POST" action="process.php">
 		<div>
